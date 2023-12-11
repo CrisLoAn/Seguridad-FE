@@ -1,0 +1,16 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
+ */
+package com.YTnest.springboot.repository;
+
+import com.YTnest.springboot.model.FurnitureType;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+/**
+ *
+ * @author crisa
+ */
+public interface FurnitureTypeRepository extends JpaRepository<FurnitureType, Long> {
+    
+}
