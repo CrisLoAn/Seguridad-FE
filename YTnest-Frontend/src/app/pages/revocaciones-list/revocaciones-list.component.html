@@ -1,0 +1,92 @@
+<div style="width: 100%;height: fit-content;display: flex;justify-content: center;padding-top: 1rem;">
+  <h1>Revocaciones de Residencias</h1>
+</div>
+<!-- Filtro búsqueda -->
+<div class="form-group">
+  <input style="margin-left: 1.5rem; width: 96%;" type="text" class="form-control" id="searchTerm" [(ngModel)]="searchTerm" (input)="filterStudents()" placeholder="Buscar..."/>
+</div>
+<div style="height: 90vh; width: 100%; overflow: hidden; border-radius: 5px;">
+  <div style="display: flex; height: calc(100% - 5rem); width: 100%">
+    <div style="flex: 1;min-width: 0;overflow-x: auto;display: flex;flex-direction: column;">
+      <div style="flex: 1; min-width: 600px; overflow-y: auto; overflow-x: hidden">
+        <div style="padding: 1rem">
+          <div style=" background-color: rgba(255, 255, 255, 0.35);backdrop-filter: blur(5px);width: 100%;padding: 0.5rem;border-radius: 8px;">
+            <!-- esto es el cuerpo -->
+            <div class="container">
+              <!-- Tabla -->
+              <table class="table" style="border-radius: 5px;">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Cédula</th>
+                    <th>Nombres</th>
+                    <th>Correo Electrónico</th>
+                    <th>Celular</th>
+                    <th>Residencia</th>
+                    <th>Score</th>
+                    <th>Revocar</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let student of filteredStudentsData">
+                    <td>{{ student.student_id }}</td>
+                    <td>{{ student.studentCedula }}</td>
+                    <td>
+                      {{
+                        student.studentLastName +
+                          " " +
+                          student.studentSecondSurname +
+                          ", " +
+                          student.studentFirstName +
+                          " " +
+                          student.studentMiddleName
+                      }}
+                    </td>
+                    <td>{{ student.studentMail }}</td>
+                    <td>{{ student.studentPhone }}</td>
+                    <td>{{ getResidenceCode(student.student_id) || "-" }}</td>
+                    <td
+                      [ngStyle]="{
+                        'font-weight': 'bold',
+                        'text-align': 'center'
+                      }"
+                      [ngClass]="getScoreStyle(getScore(student.student_id))"
+                    >
+                      {{
+                        hasRecord(student.student_id)
+                          ? getScore(student.student_id)
+                          : "-"
+                      }}
+                    </td>
+                    <td>
+                      <button
+                        *ngIf="getResidenceCode(student.student_id)"
+                        (click)="
+                          revocar(getStudentResidence(student.student_id))
+                        "
+                        class="btn btn-sm"
+                        style="background-color: #00adef; color: #fff"
+                      >
+                        Revocar
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <mat-paginator
+  style="background-color: rgba(255, 255, 255, 0.6); border-radius: 5px; width: 97.8%; margin-left: 15px; border-top: 10px;"
+  [pageSizeOptions]="[2, 3, 5, 10, 20]"
+  showFirstLastButtons
+  [pageSize]="2"
+  aria-label="Select page of students"
+  [length]="filteredStudentsData.length"
+  [pageIndex]="0"
+>
+</mat-paginator>
+</div>

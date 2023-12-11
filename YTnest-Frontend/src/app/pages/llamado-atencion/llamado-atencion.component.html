@@ -1,0 +1,23 @@
+<div style="height: 100vh; width: 100%; overflow: hidden">
+
+  <div style="display: flex; height: calc(100% - 5rem); width: 100%">
+
+    <div
+      style="flex: 1;min-width: 0; overflow-x: auto;display: flex;flex-direction: column;">
+      <!-- Scrollable container with min-width and vertical scrolling -->
+      <div
+        style="flex: 1; min-width: 600px; overflow-y: auto; overflow-x: hidden;">
+        <div style="width: 100%;height: fit-content;display: flex;justify-content: center;padding-top: 0.5rem;">
+          <h1>Historial de Llamados de Atencion</h1>
+        </div>
+        <div style="padding: 0.5rem">
+          <div
+            style="background-color: rgba(255, 255, 255, 0.35); backdrop-filter: blur(5px); width: 100%; border-radius: 5px;">
+            <app-resident></app-resident>
+          </div>
+        </div>
+      </div>
+      <!-- End of scrollable container -->
+    </div>
+  </div>
+</div>

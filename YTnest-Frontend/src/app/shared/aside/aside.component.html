@@ -1,0 +1,54 @@
+<div class="menu-lateral">
+    <ul>
+      <div style="background-color: rgba(144, 201, 241, 0.5);border-radius: 5px; height: 200px;" *ngIf="userData">
+
+        <div class="circle">
+          <div class="circle__inner">
+            <div class="circle__wrapper">
+              <div class="circle__content">{{userData.NAME[0]}}{{userData.APELLIDO[0]}}</div>
+            </div>
+          </div>
+        </div>
+        <br>
+        <div><h6 style="text-align: center; color: rgb(232, 227, 227)">Hola {{userData.NAME}}! saludos.</h6></div>
+        <div><h6 style="text-align: center; color:gray">{{userData.NAME | lowercase}}.{{userData.APELLIDO | lowercase}}@yachaytech.edu.ec</h6></div>
+        <div><h6 style="text-align: center; color: gray;">GSE: {{userData.GSEC}}</h6></div>
+        <br>
+      </div>
+      <br>
+      <li>M. Bienestar Estudiante
+        <ul>
+          <li>Options
+            <ul>
+              <li><a routerLink="/YTnest/solicitud">Solicitudes a residencias</a></li>
+              <li><a routerLink="/YTnest/historial-estudiante">Historial</a></li>
+              <li><a routerLink="/YTnest/documentos">Documentos</a></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>
+        M. Bienestar Promotores
+        <ul>
+          <li><a routerLink="/YTnest/revocaciones"> Revocaciones </a></li>
+          <li>
+            <a routerLink="/YTnest/solicitudes"> Administración de Solicitudes </a>
+          </li>
+          <li><a routerLink="/YTnest/llamadoAtencion"> Llamados de atención </a></li>
+        </ul>
+      </li>
+      <li>
+        M. Bienestar administrador
+        <ul>
+          <li><a routerLink="/YTnest/settings"> Configuraciones </a></li>
+          <li>Roles de usuario</li>
+          <li><a routerLink="/YTnest/reports"> Documentos reportes </a></li>
+        </ul>
+      </li>
+     
+      <li>
+        M. Vote
+      </li>
+    </ul>
+  </div>
+  

@@ -1,0 +1,86 @@
+<h3 style="width: 100%;height: fit-content;display: flex;justify-content: center;padding-top: 0.5rem;" *ngIf="userData">Solicitud de residencias</h3>
+<!-------------------------------------------------------------------------------------------->
+
+<div style="display: flex; width: 100%;">
+    <!-------------------------------------------------------------------------------------------->
+    <div style="width: 1%;"></div>
+    <!---------------------------------------Atributos de mi caja de busqueda----------------------------------------------------->
+
+    <div style="background-color: rgba(255, 255, 255, 0.45); width: 18%; float: left; border-radius: 5px">
+        <div class="margenIzquierdo">
+            <br>
+            <h3><strong>Buscar</strong></h3>
+            <br>
+            <label for="lugar">Lugar</label>
+            <br>
+            <div style="display:flex; overflow:hidden; margin-right: 5%;">
+              <div style="width: 100%;"><input type="text" id="nombre" [(ngModel)]="lugarFilter" name="lugar" style="width: 100%;"></div>
+            </div>
+            <br>
+            <br>
+            <label for="precio">Precio</label>
+            <div style="display: flex; overflow: hidden;">
+                <div style="width: 45%;"><input type="text" id="minPrecio" [(ngModel)]="minPrecioFilter" name="lugarMin" style="width: 100%;"></div>
+                <div style="width: 5%;"></div>
+                <div style="width: 45%;"><input type="text" id="maxPrecio" [(ngModel)]="maxPrecioFilter" name="lugarMax" style="width: 100%;"></div>
+            </div>
+            <br>
+            <div style=" border-radius: 2px; float: right; margin-right: 5%;"><button type="button" class="btn btn-success" (click)="applyFilter()">Busqueda</button></div>
+        </div>
+    </div>
+    
+    
+    <!-------------------------------------------------------------------------------------------->
+    <div style="width: 1%;"></div>
+    <!-------------------------------------------------------------------------------------------->
+
+    <div style="width: 78%; float: left;">
+        <table mat-table [dataSource]="dataSource" class="table">
+            <!-- Column definitions -->
+            <ng-container matColumnDef="residence_id">
+              <th mat-header-cell *matHeaderCellDef> Residencia </th>
+              <td mat-cell *matCellDef="let element">
+                <div class="residencia-info container">
+                  <div class="left">
+                    <br>
+                    <p><strong>{{element.residenceCode}} - PLAZA {{ getLastCharacter(element.residenceCode)}}</strong></p>
+                    {{ element.residenceLocation }} - Residencia {{removeLastTwoCharacters(removeLastTwoCharacters(element.residenceCode))}} - {{ getGender(element.residenceGender) }} {{element.residenceCapacity}} - Plaza {{ getLastCharacter(element.residenceCode)}}
+                    <br>
+                    <br>
+                    <div style="display: flex; width: 99%;">
+                      <div class="ajustado bg-primary" style="background-color: #007bff; border-radius: 3px;"> {{element.residenceLocation}} </div>
+                      <div class="ajustado" style="background-color: #dc3545; border-radius: 3px; margin-left: 10px; margin-right: 10px;">DEPARTAMENTO | CASA: {{removeLastTwoCharacters(element.residenceCode)}} </div>
+                      <div class="ajustado" style="background-color: #027a56; border-radius: 3px; margin-right: 2%;"> Área: {{element.residenceArea}}m²</div>
+                      <div class="ajustado" style="background-color: #ffc107; border-radius: 3px;"> {{getGender(element.residenceGender)}} </div>
+                    </div>
+                    <br>
+                  </div>    
+                  <div class="right" style="display:block; width: 1%;">
+                    <br>
+                    <br>
+                    <br>
+                    <div> ${{getCosto(element.cost_id)}}</div>
+                    <div class="ajustado" style=" border-radius: 2px;"><button type="button" class="btn btn-success" *ngIf="getStatus() === 'activo'"(click)="reservarResidencia(element.residenceId, getCosto(element.cost_id))">Reservar</button></div>
+                    <div class="ajustado" style=" border-radius: 2px;"><button type="button" class="btn btn-warning" *ngIf="getStatus() === 'inactivo'">Servicio inactivo</button></div>
+                  </div>
+                </div>
+              </td>
+            </ng-container>
+          
+            <!-- Add the columns to the table -->
+            <tr mat-header-row *matHeaderRowDef="['residence_id']"></tr>
+            <tr mat-row *matRowDef="let element; columns: ['residence_id']"></tr>
+          </table>
+          
+          <mat-paginator style="background-color: rgba(255, 255, 255, 0.6);"
+            [pageSizeOptions]="[2,3, 4]"
+            showFirstLastButtons
+            [pageSize]="2" 
+            aria-label="Select page of students"
+            [length]="dataSource.data.length" 
+            [pageIndex]="0">
+          </mat-paginator>
+          
+    </div>
+</div>
+<app-residence-confirmation-modal #confirmationModal></app-residence-confirmation-modal>

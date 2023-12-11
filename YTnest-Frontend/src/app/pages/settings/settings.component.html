@@ -1,0 +1,140 @@
+<div style="width: 100%; height: fit-content; display: flex; justify-content: center; padding-top: 1rem;">
+    <h1>Configuraciones</h1>
+</div>
+<!-- app.component.html -->
+<div class="scrollable-table">
+<div style="background-color: rgba(255, 255, 255, 0.35); backdrop-filter: blur(5px); width: 100%; padding: 0.5rem; border-radius: 8px;">
+    <h5>Apertura de solicitudes</h5>
+    <br>
+    <mat-accordion>
+        <mat-expansion-panel>
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+            +
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+        <form [formGroup]="editForm" (ngSubmit)="onButtonClick()">
+            <div>
+                <div>
+                    <div style="width: 100%;">
+                        <div style="width: 45%; display: inline-block;">
+                            <label style="margin-left: 1%;" for="fechaApertura">Fecha de Apertura:</label>
+                            <ejs-datetimepicker 
+                                placeholder="Seleccione una fecha de apertura"
+                                [enableMask]="true"
+                                format="yyyy-MMM-dd hh:mm:ss" formControlName="fApertura">
+                            </ejs-datetimepicker>
+                        </div>
+                        <div style="width: 48%; display: inline-block;">
+                            <label style="margin-left: 3%;" for="fechaCierre">Fecha de Cierre:</label>
+                            <ejs-datetimepicker style="margin-left: 3%;"
+                                placeholder="Seleccione una fecha de cierre"
+                                [enableMask]="true"
+                                format="yyyy-MMM-dd hh:mm:ss" formControlName="fCierre">
+                            </ejs-datetimepicker>
+                        </div>
+                    </div>
+                </div>
+
+                <br>
+                <br>
+                <div class="row">
+                    <mat-form-field appearance="outline">
+                    <mat-label >Descripcion de apertura.</mat-label>
+                    <input matInput formControlName="descripcion"/>
+                    </mat-form-field>
+                </div>
+                <mat-form-field appearance="outline"> 
+                    <mat-label>Estado</mat-label>
+                    <mat-select formControlName="estado">
+                    <mat-option value="one">Habilitado</mat-option>
+                    <mat-option value="two">Inhabilitado</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <div class="row">
+                <div mat-dialog-actions class="actions" style=" display: flex; justify-content: center ">
+                        <button [disabled]="isButtonDisabledGenerar" type="button" class="btn my-button" style="background-color: #4d5252; color: #fff" (click)="enableButton()">Nuevo periodo</button>
+                        <button [disabled]="isButtonDisabled" type="submit" class="btn my-button" style="background-color: #00adef; color: #fff; margin-left: 1%;" (click)="onButtonClick">Generar</button>
+                    </div>
+                </div>
+            </div>
+    </form>
+        </mat-expansion-panel>
+        <br>
+        <h5>Cierre de solicitudes</h5>  
+        <mat-expansion-panel>
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+            +
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+        <table mat-table [dataSource]="getFilteredSettingsData()" class="mat-elevation-z8" style="width: 100%">
+            <ng-container matColumnDef="settingInitDate">
+              <th mat-header-cell *matHeaderCellDef>Fecha de inicio</th>
+              <td mat-cell *matCellDef="let setting">{{ setting.settingInitDate | date:'medium' }}</td>
+            </ng-container>
+            <ng-container matColumnDef="settingEndDate">
+              <th mat-header-cell *matHeaderCellDef>Fecha de finalización</th>
+              <td mat-cell *matCellDef="let setting">{{ setting.settingEndDate | date:'medium' }}</td>
+            </ng-container>
+            <ng-container matColumnDef="settingDescription">
+              <th mat-header-cell *matHeaderCellDef>Descripción apertura</th>
+              <td mat-cell *matCellDef="let setting">{{ setting.settingDescription }}</td>
+            </ng-container>
+            <ng-container matColumnDef="status">
+              <th mat-header-cell *matHeaderCellDef>Estado</th>
+              <td mat-cell *matCellDef="let setting">{{ getStatusDescription(setting.status) }}</td>
+            </ng-container>
+            <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef>Función</th>
+                <td mat-cell *matCellDef="let setting">
+                    <button style="background-color: gray;" mat-button *ngIf="setting.status === 'A'" (click)="desactivar(setting)">Desactivar</button>
+                </td>
+              </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns2;"></tr>
+          </table>
+        </mat-expansion-panel>
+    </mat-accordion>
+    <br>
+</div>
+<hr>
+<h4>Histórico de solicitudes</h4>
+<div style="width: 100%; overflow: hidden; border-radius: 5px;" class="scrollable-table">
+    <div style="display: flex; height: calc(100% - 5rem); width: 100%">
+      <div style="flex: 1; min-width: 0; overflow-x: auto; display: flex; flex-direction: column;">
+        <div style="flex: 1; min-width: 600px; overflow-y: auto; overflow-x: hidden">
+          <div style="padding: 1rem">
+            <div style="background-color: rgba(255, 255, 255, 0.35); backdrop-filter: blur(5px); width: 100%; padding: 0.5rem; border-radius: 8px;">
+              <div class="container">
+                <br>
+                <table mat-table [dataSource]="settingsData" class="mat-elevation-z8" style="width: 100%">
+                  <ng-container matColumnDef="settingInitDate">
+                    <th mat-header-cell *matHeaderCellDef>Fecha de inicio</th>
+                    <td mat-cell *matCellDef="let setting">{{ setting.settingInitDate | date:'medium' }}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="settingEndDate">
+                    <th mat-header-cell *matHeaderCellDef>Fecha de finalización</th>
+                    <td mat-cell *matCellDef="let setting">{{ setting.settingEndDate  | date:'medium'}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="settingDescription">
+                    <th mat-header-cell *matHeaderCellDef>Descripción apertura</th>
+                    <td mat-cell *matCellDef="let setting">{{ setting.settingDescription }}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="status">
+                    <th mat-header-cell *matHeaderCellDef>Estado</th>
+                    <td mat-cell *matCellDef="let setting" >{{ getStatusDescription(setting.status) }}</td>
+                  </ng-container>
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+</div>
+</div>
+  

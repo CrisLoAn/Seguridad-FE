@@ -1,0 +1,63 @@
+<div mat-dialog-title>Llamado de atencion</div>
+
+<div style="width:50rem">
+  <form [formGroup]="editForm" (ngSubmit)="onFormSubmit()">
+    <div mat-dialog-content class="content" style="width: 50rem">
+      <div class="row">
+        <mat-form-field appearance="outline">
+          <mat-label>Motivo del llamado de atencion</mat-label>
+          <mat-select formControlName="PenaltyId">
+            <mat-option *ngFor="let val of penalties" [value]="val.penaltyId">
+              {{ val.penaltyDescription + "--->" + "(costo: " + val.penaltyCost+")" }}
+              <!-- {{ `${val.name} (${val.penaltyScore})` }}           -->
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="row">
+        <mat-form-field appearance="outline">
+          <mat-label>Descripcion</mat-label>
+          <input matInput formControlName="Description" />
+        </mat-form-field>
+      </div>
+    </div>
+    <h4 style="margin-left: 1rem;">Eventos registrados</h4>
+  </form>
+</div>
+
+<div class="mat-elevation-z8">
+  <table mat-table [dataSource]="recordPenaltyData">
+
+    <!-- Position Column -->
+  <ng-container matColumnDef='Fecha penalidad'>
+    <th mat-header-cell *matHeaderCellDef> Fecha penalidad </th>
+    <td mat-cell *matCellDef="let element"> {{element.penaltyDate | date:'dd-MM-yyyy' || '00-00-0000'}} </td>
+  </ng-container>
+
+  <!-- Name Column -->
+  <ng-container matColumnDef='Description'>
+    <th mat-header-cell *matHeaderCellDef> Detalle penalidad </th>
+    <td mat-cell *matCellDef="let element"> {{element.description || 'Penalidad detalles'}} </td>
+  </ng-container>
+
+  <!-- Weight Column -->
+  <ng-container matColumnDef='Score'>
+    <th mat-header-cell *matHeaderCellDef> Costo penalidad </th>
+    <td mat-cell *matCellDef="let element"> {{element.penalty.penaltyCost || '0'}} </td>
+  </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+  <mat-paginator [pageSizeOptions]="[5, 10, 20]"
+                 showFirstLastButtons
+                 aria-label="Select page of periodic elements"
+                 pageSize=2>
+  </mat-paginator>
+</div>
+<br>
+<div mat-dialog-actions class="actions" style="justify-content: right; align-items: center;">
+  <button type="button" class="btn" (click)="cancelar()">Cancelar</button>
+  <button type="submit" class="btn" style="background-color: #00adef; color: #fff" (click)="generatePenalty()" >Generar</button>
+</div>

@@ -1,0 +1,14 @@
+
+
+.table {
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 10px; /* Puedes ajustar el valor para cambiar la cantidad de redondeo */
+}
+
+.table td, .table th {
+    border-radius: 1px solid #ddd; /* Establece un borde para las celdas */
+    padding: 8px;
+    background-color: rgba(255, 255, 255, 0.2);
+    text-align: left;
+  }

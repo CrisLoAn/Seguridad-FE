@@ -1,0 +1,88 @@
+<!-- Filtro búsqueda -->
+<div class="form-group" style="margin-top: 1rem;margin-bottom: 0.5rem;">
+  <input
+    type="text"
+    class="form-control"
+    id="searchTerm"
+    [(ngModel)]="searchTerm"
+    (input)="applyFilter()"
+    placeholder="Nombre/C.I..."
+  />
+</div>
+<div class="mat-elevation-z8" style="border-radius: 8px !important">
+  <!-- Filtro búsqueda -->
+
+  <table
+    mat-table
+    [dataSource]="dataSource"
+    class="table"
+    style="overflow-x: hidden !important"
+  >
+    <ng-container matColumnDef="studentCedula">
+      <th mat-header-cell *matHeaderCellDef>Cedula</th>
+      <td mat-cell *matCellDef="let element">{{ element.studentCedula }}</td>
+    </ng-container>
+    <ng-container matColumnDef="Nombres">
+      <th mat-header-cell *matHeaderCellDef>Nombres</th>
+      <td mat-cell *matCellDef="let element">
+        {{
+          element.studentLastName +
+            " " +
+            element.studentSecondSurname +
+            ", " +
+            element.studentFirstName +
+            " " +
+            element.studentMiddleName
+        }}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="studentMail">
+      <th mat-header-cell *matHeaderCellDef>Correo</th>
+      <td mat-cell *matCellDef="let element">{{ element.studentMail }}</td>
+    </ng-container>
+
+    <!-- <td>{{ getResidenceCode(student.student_id) || '-' }}</td> -->
+    <ng-container matColumnDef="studentResidences">
+      <th mat-header-cell *matHeaderCellDef>Residencia</th>
+      <td mat-cell *matCellDef="let element" >
+        {{ getResidenceCode(element.student_id) || '-'}}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="score">
+      <th mat-header-cell *matHeaderCellDef>Score</th>
+      <!-- <td mat-cell *matCellDef="let element">
+        {{ element.studentResidences }}
+      </td> -->
+      <td
+        mat-cell
+        *matCellDef="let element"
+        [ngClass]="getScoreStyle(getScore(element.student_id))"
+      >
+        {{ hasRecord(element.student_id) ? getScore(element.student_id) : "-" }}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="Actions">
+      <th mat-header-cell *matHeaderCellDef>Acciones</th>
+
+      <td mat-cell *matCellDef="let element">
+        <button mat-icon-button (click)="openEditForm(element.student_id)">
+          <mat-icon>edit</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+  <mat-paginator
+    style="background-color: rgba(255, 255, 255, 0.6)"
+    [pageSizeOptions]="[1, 3, 5, 10, 20]"
+    showFirstLastButtons
+    [pageSize]="2"
+    aria-label="Select page of students"
+    [length]="dataSource.data.length"
+    [pageIndex]="0"
+  >
+  </mat-paginator>
+</div>

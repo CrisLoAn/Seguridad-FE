@@ -1,0 +1,127 @@
+/* Estilos para el menú lateral */
+.menu-lateral {
+    color: white;
+    width: 270px;
+    backdrop-filter: blur(5px);
+    background-color: rgba(46, 70, 86, 0.35);
+    color: white;
+    border-radius: 5px;
+    backdrop-filter: blur(5px);
+    height: 100vh;
+  }
+  
+  .menu-lateral ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .menu-lateral li {
+    padding: 8px;
+    cursor: pointer;
+  }
+  
+  .menu-lateral li:hover {
+    backdrop-filter: blur(5px);
+    background-color: rgba(144, 201, 241, 0.35);
+    color: white;
+    border-radius: 5px;
+  }
+  
+  .menu-lateral li ul {
+    display: none;
+  }
+  
+  .menu-lateral li:hover ul {
+    display: block;
+    color: white;
+    border-radius: 5px;
+
+  }
+  
+  .menu-lateral li ul li {
+    padding: 5px;
+  }
+  
+  /**
+ * Demo Styles
+ */
+
+html {
+  box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+html {
+  min-height: 100%;
+}
+
+body {
+  margin: 64px auto;
+  max-width: 640px;
+  width: 94%;
+  text-align: center;
+}
+
+/**
+ * Circle Styles
+ */
+
+.circle {
+  position: relative;
+  display: flex;
+  top: 5%;
+  justify-content: center; /* Centra horizontalmente el círculo */
+  align-items: center; /* Centra verticalmente el círculo */    
+  background-color: transparent;
+  color: #222;
+  text-align: center;
+}
+
+.circle:after {
+  display: block;
+  padding-bottom: 35%;
+  width: 35%;
+  height: 0;
+  border-radius: 50%;
+  background-color: #ddd;
+  content: "";
+}
+
+.circle__inner {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.circle__wrapper {
+  display: table;
+  width: 100%;
+  height: 100%;
+}
+
+.circle__content {
+  display: table-cell;
+  padding: 1em;
+  vertical-align: middle;
+}
+
+@media (min-width: 480px) {
+  .circle__content {
+    font-size: 14px;
+  }
+}
+
+@media (min-width: 768px) {
+  .circle__content {
+    font-size: 25px;
+  }
+}

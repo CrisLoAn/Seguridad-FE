@@ -1,0 +1,209 @@
+<div style="width: 100%;height: fit-content;display: flex;justify-content: center;padding-top: 1rem;">
+  <h1>Administración de solicitudes</h1>
+</div>
+<!-- Filtro búsqueda -->
+<div class="form-group" style="margin-left: 2rem; width: 96.5%;">
+  <input
+    type="text"
+    class="form-control"
+    id="searchTerm"
+    [(ngModel)]="searchTerm"
+    (input)="filterStudents()"
+    placeholder="Nombre/C.I..."
+  />
+</div>
+<div style="padding: 0.8rem;">
+  <div style="height: 90vh; width: 100%; overflow: hidden; border-radius: 5px;">
+  <div style="display: flex; height: calc(100% - 5rem); width: 100%">
+    <div style="flex: 1;min-width: 0;overflow-x: auto;display: flex;flex-direction: column;">
+      <div style="flex: 1; min-width: 600px; overflow-y: auto; overflow-x: hidden">
+        <div style="padding: 1rem">
+          <div style=" background-color: rgba(255, 255, 255, 0.35);backdrop-filter: blur(5px);width: 100%;padding: 0.5rem;border-radius: 8px;">
+            <div
+            style="background-color: rgba(255, 255, 255, 0.35);backdrop-filter: blur(5px);width: 100%;padding: 0.5rem;border-radius: 8px;">
+            <!-- esto es el cuerpo -->
+            <div class="container" >
+              <!-- Tabla -->
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th class="text-center">ID</th>
+                    <th class="text-center">Cédula</th>
+                    <th class="text-center">Nombres</th>
+                    <th class="text-center">Correo Electrónico</th>
+                    <th class="text-center">Celular</th>
+                    <th class="text-center">Residencia</th>
+                    <th class="text-center">Precio</th>
+                    <th class="text-center">Score</th>
+                    <th class="text-center">Reubicar</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let student of filteredStudentsData; let i = index" >
+                    <ng-container *ngIf="getResidenceCode(student.student_id); eliminarFila(i)">
+                    <td class="text-center">{{ student.student_id }}</td>
+                    <td class="text-center">{{ student.studentCedula }}</td>
+                    <td class="text-center">
+                      {{
+                        student.studentLastName +
+                          " " +
+                          student.studentSecondSurname +
+                          ", " +
+                          student.studentFirstName +
+                          " " +
+                          student.studentMiddleName
+                      }}
+                    </td>
+                    <td class="text-center">{{ student.studentMail }}</td>
+                    <td class="text-center">{{ student.studentPhone }}</td>
+                    <td class="text-center">
+                      {{ getResidenceCode(student.student_id)}}
+                    </td>
+                    <td class="text-center">
+                      <ng-container
+                        *ngIf="
+                          getCostPrice(student.student_id) !== null;
+                          else noPrice
+                        "
+                      >
+                        {{ getCostPrice(student.student_id) }} $
+                      </ng-container>
+                      <ng-template #noPrice> - </ng-template>
+                    </td>
+        
+                    <td
+                      class="text-center"
+                      [ngStyle]="{
+                        'font-weight': 'bold',
+                        'text-align': 'center'
+                      }"
+                      [ngClass]="getScoreStyle(getScore(student.student_id))"
+                    >
+                      {{
+                        hasRecord(student.student_id)
+                          ? getScore(student.student_id)
+                          : "-"
+                      }}
+                    </td>
+        
+                    <!-- Botón para abrir el modal -->
+                    <td class="text-center">
+                      <button
+                        class="btn btn-sm mr-2"
+                        style="
+                          background-color: #00adef;
+                          color: #fff;
+                          text-align: center;
+                        "
+                        (click)="openModal(student.student_id)"
+                      >
+                        Reubicar
+                      </button>
+                    </td>
+                  </ng-container>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+        
+            <!-- Model -->
+            <div class="modal-container" [ngClass]="{ hidden: !showModal }">
+              <div class="modal-content">
+                <h3>Reubicar estudiante</h3>
+                <label for="residenciaSelect">Selecciona una residencia:</label>
+                <select
+                  class="form-control"
+                  id="residenciaSelect"
+                  [(ngModel)]="selectedResidenceId"
+                >
+                  <!-- Aquí usar *ngFor para recorrer el arreglo de las residencias disponibles y mostrar las opciones -->
+                  <option
+                    *ngFor="let residence of getAvailableResidences()"
+                    [value]="residence.residenceId"
+                  >
+                    {{ residence.residenceCode }}
+                  </option>
+                </select>
+        
+                <br />
+                <!-- Detalles de la residencia seleccionada -->
+                <div *ngIf="showModal && selectedResidenceId">
+                  <h3>Detalles de la residencia</h3>
+                  <p>
+                    <strong>Precio:</strong>
+                    {{
+                      getResidenceCostPrice(selectedResidenceId) !== null
+                        ? getResidenceCostPrice(selectedResidenceId) + "$"
+                        : "-"
+                    }}
+                  </p>
+                  <p>
+                    <strong>Capacidad:</strong>
+                    {{
+                      getResidenceCapacity(selectedResidenceId) !== null
+                        ? getResidenceCapacity(selectedResidenceId)
+                        : "-"
+                    }}
+                  </p>
+                  <p>
+                    <strong>Genero:</strong>
+                    {{
+                      getResidenceGender(selectedResidenceId) !== null
+                        ? getResidenceGender(selectedResidenceId)
+                        : "-"
+                    }}
+                  </p>
+                  <p>
+                    <strong>Ubicación:</strong>
+                    {{
+                      getResidenceLocation(selectedResidenceId) !== null
+                        ? getResidenceLocation(selectedResidenceId)
+                        : "-"
+                    }}
+                  </p>
+                  <p>
+                    <strong>Área:</strong>
+                    {{
+                      getResidenceArea(selectedResidenceId) !== null
+                        ? getResidenceArea(selectedResidenceId) + " m²"
+                        : "-"
+                    }}
+                  </p>
+                </div>
+                <div class="modal-buttons" style="text-align: right">
+                  <button
+                    class="btn btn-secondary btn-sm mr-2"
+                    (click)="closeModal()"
+                  >
+                    Cancelar
+                  </button>
+                  <button
+                    class="btn btn-primary btn-sm mr-2"
+                    (click)="
+                      reubicarEstudiante(selectedResidenceId, selectedStudentId)
+                    "
+                  >
+                    Guardar
+                  </button>
+                </div>
+              </div>
+            </div>
+            <!-- con esto  -->
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <mat-paginator
+  style="background-color: rgba(255, 255, 255, 0.6); margin-top: 0.3rem; border-radius: 5px; width: 96.5%; margin-left: 0.8rem;"
+  [pageSizeOptions]="[1, 3, 5, 10, 20]"
+  showFirstLastButtons
+  [pageSize]="5"s
+  aria-label="Select page of students"
+  [length]="this.filteredStudentsData.length"
+  [pageIndex]="currentPage"
+>
+</mat-paginator>
+</div>
+

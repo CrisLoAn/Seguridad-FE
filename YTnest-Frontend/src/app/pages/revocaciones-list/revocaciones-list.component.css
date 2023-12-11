@@ -1,0 +1,43 @@
+/* Estilos generales de la tabla */
+.table {
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.45);
+  border-radius: 8px !important;
+}
+
+.table td, .table th {
+  border: 1px solid #ddd;
+  padding: 8px;
+  background-color: rgba(255, 255, 255, 0.45);
+  text-align: left;
+}
+
+.table-general {
+  border-radius: 8px;
+}
+
+/* Estilos de las clases de puntuación */
+td.score-green, .table td.score-green, .table th.score-green {
+  background-color: #7cf082;
+  color: white;
+}
+
+td.score-blue, .table td.score-blue, .table th.score-blue {
+  background-color: rgb(86, 113, 204);
+  color: white;
+}
+
+td.score-yellow, .table td.score-yellow, .table th.score-yellow {
+  background-color: rgb(253, 253, 142);
+  color: black;
+}
+
+td.score-orange, .table td.score-orange, .table th.score-orange {
+  background-color: rgb(247, 198, 107);
+  color: white;
+}
+
+td.score-red, .table td.score-red, .table th.score-red {
+  background-color: rgb(224, 79, 79);
+  color: white;
+}

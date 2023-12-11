@@ -1,0 +1,95 @@
+<h2> Estudiantes</h2>
+<div class="mat-elevation-z8 div">
+    <table mat-table [dataSource]="dataSource" class="table">
+   
+      <!-- Cedula Column -->
+      <ng-container matColumnDef="studentCedula">
+        <th mat-header-cell *matHeaderCellDef> Cedula </th>
+        <td mat-cell *matCellDef="let element from dataSource"> {{element.studentCedula}} </td>
+      </ng-container>
+  
+      <!-- Name 1 Column -->
+      <ng-container matColumnDef="studentFirstName">
+        <th mat-header-cell *matHeaderCellDef> Name 1 </th>
+        <td mat-cell *matCellDef="let element from dataSource "> {{element.studentFirstName}} </td>
+      </ng-container>
+  
+      <!-- Name 2 Column -->
+      <ng-container matColumnDef="studentMiddleName">
+        <th mat-header-cell *matHeaderCellDef> Name 2 </th>
+        <td mat-cell *matCellDef="let element from dataSource "> {{element.studentMiddleName}} </td>
+      </ng-container>
+  
+      <!-- Sur 1 Column -->
+      <ng-container matColumnDef="studentLastName">
+        <th mat-header-cell *matHeaderCellDef> Sur 1 </th>
+        <td mat-cell *matCellDef="let element from dataSource "> {{element.studentLastName}} </td>
+      </ng-container>
+  
+      <!-- Sur 2 Column -->
+      <ng-container matColumnDef="studentSecondSurname">
+        <th mat-header-cell *matHeaderCellDef> Sur 2 </th>
+        <td mat-cell *matCellDef="let element from dataSource "> {{element.studentSecondSurname}} </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="Nombres">
+        <th mat-header-cell *matHeaderCellDef> Nombres </th>
+        <td mat-cell *matCellDef="let element from dataSource "> {{element.studentLastName + " " + element.studentSecondSurname+", " + element.studentFirstName+ " " + element.studentMiddleName}} </td>
+      </ng-container>
+
+      <!-- Genero Column -->
+      <ng-container matColumnDef="studentGender">
+        <th mat-header-cell *matHeaderCellDef> Genero </th>
+        <td mat-cell *matCellDef="let element from dataSource "> {{element.studentGender}} </td>
+      </ng-container>
+  
+      <!-- Provincia Column -->
+      <ng-container matColumnDef="studentProvince">
+        <th mat-header-cell *matHeaderCellDef> Provincia </th>
+        <td mat-cell *matCellDef="let element from dataSource "> {{element.studentProvince}} </td>
+      </ng-container>
+  
+      <!-- Semestre Column -->
+      <ng-container matColumnDef="studentSemester">
+        <th mat-header-cell *matHeaderCellDef> Semestre </th>
+        <td mat-cell *matCellDef="let element from dataSource "> {{element.studentSemester}} </td>
+      </ng-container>
+  
+      <!-- Correo Column -->
+      <ng-container matColumnDef="studentMail">
+        <th mat-header-cell *matHeaderCellDef> Correo </th>
+        <td mat-cell *matCellDef="let element from dataSource "> {{element.studentMail}} </td>
+      </ng-container>
+  
+      <!-- Telefono Column -->
+      <ng-container matColumnDef="studentPhone">
+        <th mat-header-cell *matHeaderCellDef> Telefono </th>
+        <td mat-cell *matCellDef="let element from dataSource "> {{element.studentPhone}} </td>
+      </ng-container>
+  
+      <!-- GSEC Column -->
+      <ng-container matColumnDef="studentGSEC">
+        <th mat-header-cell *matHeaderCellDef> GSEC </th>
+        <td mat-cell *matCellDef="let element from dataSource "> {{element.studentGSEC}} </td>
+      </ng-container>
+  
+      <!-- Representante Column -->
+      <ng-container matColumnDef="studentRepresentative">
+        <th mat-header-cell *matHeaderCellDef> Representante </th>
+        <td mat-cell *matCellDef="let element from dataSource"> {{element.studentRepresentative}} </td>
+      </ng-container>
+  
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  
+    <mat-paginator #Paginator 
+      [length]="totalStudents"
+      [pageSize]="pageSize" 
+      showFirstLastButtons="true"
+      [pageSizeOptions]="[1, 3, 5, 7, 10]"
+      [pageIndex]="page"
+      (page)="handlePageEvent($event)"
+   >
+</mat-paginator>
+  </div>

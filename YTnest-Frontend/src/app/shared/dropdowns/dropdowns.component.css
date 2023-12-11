@@ -1,0 +1,17 @@
+.search_select_box{
+    max-width: 400px;
+    margin:80px auto;
+    
+    
+
+
+}
+.search_select_box select{
+   width: 90%;
+   background-color:#00ADEF;
+border-color:#00ADEF;
+   
+    
+}
+
+ 
